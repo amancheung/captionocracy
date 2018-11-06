@@ -46,13 +46,26 @@ An example caption: </br>
 ## Link to db.js of Schema </br>
 
 ## Wireframes: </br>
-Sample screenshots
+Home - Image Feed </br>
+<img src="img/home_wireframe.png" alt="home" width="500">
+</br>
+
+Upload Image </br>
+<img src="img/addImg_wireframe.png" alt="addImg" width="500">
+</br>
+
+View Profile </br>
+<img src="img/profile_wireframe.png" alt="profile" width="500">
+</br>
+
+View and Vote on Captions </br>
+<img src="img/caption_wireframe.png" alt="caption" width="500">
+</br>
 
 ## Site-map: </br>
 <img src="img/capt_cracy_sitemap.png" alt="site_map">
 
-
-## User interactions:
+## User stories and interactions:
 1) Upload images
 2) Upload captions
 3) Upvote on captions
@@ -64,6 +77,7 @@ Sample screenshots
 - 2 points -> Use Bootstrap CSS
 
 ## Link to main project file (skeleton app) </br>
+[Available here](src/app.js)
 
 ## References: </br>
 Facebook login - https://developers.facebook.com/docs/facebook-login/web#redirecturl </br>
