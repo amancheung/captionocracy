@@ -1,0 +1,16 @@
+<img src="{{imgLink}}" alt="{{imgLink}}" width="400">
+
+<ol>
+{{#each captionList}}
+  <p>{{this}} &nbsp
+    <input type="submit" value="I like!">
+  </p>
+{{/each}}
+</ol>
+
+<h3>Add your touch!</h3>
+<form method="POST" action="">
+    Caption: <input type="text" name="what" value=""> <br>
+    <input type="submit" value="Add">
+    <br><br>
+</form>

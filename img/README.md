@@ -1,0 +1,1 @@
+Image assests for overview

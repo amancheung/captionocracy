@@ -1,0 +1,22 @@
+<h2>Name: {{sampleUser.name}}</h2>
+
+<h3>Your Image uploads</h3>
+{{#each sampleUser.imgUploads}}
+  <li>
+    <a href="{{this.link}}">{{this.name}}</a>
+  </li>
+{{/each}}
+
+<h3>Your Image votes</h3>
+{{#each sampleUser.imgVotes}}
+  <li>
+    <a href="{{this.link}}">{{this.name}}</a>
+  </li>
+{{/each}}
+
+<h3>Your Caption votes</h3>
+{{#each sampleUser.captionVotes}}
+  <li>
+    <a href="{{this.link}}">{{this.name}}</a> - {{this.caption}}</a>
+  </li>
+{{/each}}
