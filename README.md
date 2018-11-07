@@ -83,6 +83,6 @@ View and Vote on Captions </br>
 
 ## References: </br>
 Passport login - http://www.passportjs.org/ </br>
-Bootstrap - http://getbootstrap.com/docs/4.1/getting-started/introduction/
+Bootstrap - http://getbootstrap.com/docs/4.1/getting-started/introduction/ </br>
 Input verification - https://www.w3schools.com/js/js_validation.asp
 
