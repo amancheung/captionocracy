@@ -17,9 +17,8 @@ An Example User:
 
 ``` javascript
 {
-	faceBook_username: "Jack Daniels",
-	faceBook_hash: ********,
-	site_username: "Jack0245", //Custom username for the app - Collision detection and prompt new username input
+	username: "Jack Daniels", //Custom username for the app - Collision detection and prompt new username input
+	password_hash: ********,
 	history: [ [Image upload history] [Image voting history] [Caption upload history] [Caption voting history] ]
 }
 ```
@@ -44,6 +43,7 @@ An example caption: </br>
 ```
 
 ## Link to db.js of Schema </br>
+[Available here](src/db.js)
 
 ## Wireframes: </br>
 Home - Image Feed </br>
@@ -71,15 +71,18 @@ View and Vote on Captions </br>
 3) Upvote on captions
 4) Upvote on images
 5) View images & captions
+6) Filter images by tags
 
 ## Modules for research</br>
-- 6 points -> Integrate Facebook Login for the web
-- 2 points -> Use Bootstrap CSS
+- 5 points -> Integrate Passport Login for the web, disabling uploads for unauthenticated users.
+- 2 points -> Use Bootstrap CSS, create readable and mobile friendly UI
+- 1 point -> Have client-side verification for data inputs, let users know of errors and correct them before wondering if their incorrect data is uploaded or not
 
 ## Link to main project file (skeleton app) </br>
 [Available here](src/app.js)
 
 ## References: </br>
-Facebook login - https://developers.facebook.com/docs/facebook-login/web#redirecturl </br>
+Passport login - http://www.passportjs.org/ </br>
 Bootstrap - http://getbootstrap.com/docs/4.1/getting-started/introduction/
+Input verification - https://www.w3schools.com/js/js_validation.asp
 
