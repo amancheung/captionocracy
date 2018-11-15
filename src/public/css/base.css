@@ -3,3 +3,8 @@ body {
   color: teal;
   font-family: helvetica;
 }
+
+#query {
+  height: 20px;
+  width: 400px;
+}

@@ -5,7 +5,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const db = require('./db');
+//const db = require('./db');
 const session = require('express-session'); //session ID
 // retrieve data from db
 const mongoose = require('mongoose');
@@ -18,7 +18,7 @@ console.log("Server has started");
 const app = express();
 
 const sessionOptions = {
-	secret: 'soundsesh',
+	secret: 'imgSesh',
 	saveUninitialized: false,
 	resave: false
 };
@@ -34,10 +34,7 @@ app.use(express.static(publicPath));
 app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.urlencoded({extended: false}));
 const logger = (req, res, next) => {
-  console.log(`Req Method: ${req.method}
-Req Path: ${req.path}
-Req Query: ${Object.values(req.query)}
-Req Body: ${JSON.stringify(req.body)}`);
+  console.log(`Req Method: ${req.method} Req Path: ${req.path} Req Query: ${Object.values(req.query)}Req Body: ${JSON.stringify(req.body)}`);
   next();
 };
 
@@ -64,6 +61,17 @@ app.get('/', (req, res)=> {
   imgLinks = ['img/sample_1.jpg', 'img/sample_2.jpg', 'img/sample_3.jpg', 'img/sample_4.jpg'];
   res.render('home', {imgList: imgLinks});
 });
+
+//Dummy counter
+let counter = 0;
+
+//Recieves data when user clicks a button in home screen
+app.post('/', (req, res)=> {
+	counter+=1;
+	console.log("IMG CLICKED: "+req.body.img_id);
+	console.log("Counter: "+counter);
+	res.redirect('/');
+})
 
 app.get('/sampleImageCaptionPage', (req, res)=> {
   imgCaptions = ['shook', 'Midterms SZN', 'What is life?', '10+ years of experience?'];
@@ -93,8 +101,6 @@ app.get('/profile', (req, res) => {
   };
   res.render('profile', {sampleUser: sampleUser});
 })
-
-
 
 
 

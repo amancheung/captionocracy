@@ -1,9 +1,28 @@
+<form method="GET" action="">
+  Filter: <input type="text" id="query" name="filterQuery" value="Enter tags">
+  <input type="submit" name="Filter">
+</form>
+
 {{#each imgList}}
   <p>
     <a href="/sampleImageCaptionPage">
       <img src="{{this}}" alt="link" width="250">
     </a>
     <br>
-    <input type="submit" value="Yes!">
+    <input type="button" class="img-up-vote-button" id={{this}} value="YAS!">
   </p>
 {{/each}}
+
+<!-- AJAX Javascript for handling when an upvote button is clicked-->
+<script>
+  const upBtns = document.getElementsByClassName("img-up-vote-button");
+  Array.prototype.forEach.call(upBtns, function(ele) {
+    ele.addEventListener('click', function() {
+        console.log(ele.id + "-clicked!");
+        const req = new XMLHttpRequest();
+        req.open("POST", "/", true);
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        req.send(`img_id=${ele.id}`);
+    })
+  });
+</script>

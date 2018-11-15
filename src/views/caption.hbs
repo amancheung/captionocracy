@@ -3,10 +3,20 @@
 <ol>
 {{#each captionList}}
   <p>{{this}} &nbsp
-    <input type="submit" value="I like!">
+    <input type="button" class="caption-up-vote-button" id={{this}} value="I like!">
   </p>
 {{/each}}
 </ol>
+
+<!-- AJAX Javascript for handling when an upvote button is clicked-->
+<script>
+  const upBtns = document.getElementsByClassName("caption-up-vote-button");
+  Array.prototype.forEach.call(upBtns, function(ele) {
+    ele.addEventListener('click', function() {
+        console.log(ele.id + "-clicked!");
+    })
+  });
+</script>
 
 <h3>Add your touch!</h3>
 <form method="POST" action="">
