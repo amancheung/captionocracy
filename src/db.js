@@ -20,13 +20,6 @@ const CaptionSchema = new mongoose.Schema({
   score: {type: Number, required: true},
 });
 
-CaptionSchema.pre('save', function (next) {
-  if ('' == this.caption) {
-    return next(new Error('Empty caption'));
-  }
-  next();
-});
-
 // schema for how each image entry will be saved in DB
 const ImageSchema = new mongoose.Schema({
   name: {type: String, required: true},

@@ -111,42 +111,52 @@ app.get(/\/img\/[a-z]+/, (req, res)=> {
 
 app.post(/\/img\/[a-z]+/, (req, res) => {
 	const imgSLUG = req.path.split("/")[2];
-  const newCaption = new Caption({
-		caption: req.body.caption,
-		captionCreator: "123456",
-		score: 0,
-	});
-
-	Image.findOne({slug: imgSLUG}, function(err, img, count) {
-		//if (newCaption.caption!=='') {
-		img.captions.push(newCaption);
-		//	res.render('caption', {image: img, message: "Can't submit an empty caption"});
-		//};
-		img.save(function(err, savedImg, count) {
+	if (req.body.img_id) {
+		//console.log("Vote!");
+		Image.findOne({slug: imgSLUG}, function(err, img, count){
 			if (err) {
-				console.log("Save error");
-				res.render('caption', {image: img, message: "Save error"});
+				console.log(err);
 			} else {
-				//console.log("CAPTIONS-2: "+img.captions);
-				console.log("Saved: "+savedImg);
-				res.redirect(req.path);
+				const captionUpdate = img.captions.id(req.body.img_id);
+				captionUpdate.score += 1;
+				console.log("Updated Caption: "+captionUpdate);
+				img.captions.id(req.body.img_id).remove();
+				img.captions.push(captionUpdate);
+				img.save(function(err, saveUpdateImg, count){
+					if (err) {
+						console.log("Save caption update error");
+					} else {
+						console.log("Caption score updated");
+					}
+				});
 			}
 		});
-	});
-	/*
-	Image.findOneAndUpdate({slug: imgSLUG}, {$push:{captions: newCaption}}, function(err, img, count){
-		let msg = "";
-		if (err) {
-			msg = "Caption Input Error"
-			console.log(msg);
-			res.render('caption', {images: img, message: msg});
-		} else {
-			//img.captions.push(newCaption);
-			console.log("Caption saved: "+newCaption.caption);
-			res.redirect(req.path);
-		}
-	});
-	*/
+	} else {
+		console.log("No Vote!");
+	  const newCaption = new Caption({
+			caption: req.body.caption,
+			captionCreator: "123456",
+			score: 0,
+		});
+
+		Image.findOne({slug: imgSLUG}, function(err, img, count) {
+			//if (newCaption.caption!=='') {
+			img.captions.push(newCaption);
+			//	res.render('caption', {image: img, message: "Can't submit an empty caption"});
+			//};
+			img.save(function(err, savedImg, count) {
+				if (err) {
+					console.log("Save error");
+					res.render('caption', {image: img, message: "Save error"});
+				} else {
+					//console.log("CAPTIONS-2: "+img.captions);
+					console.log("Saved: "+savedImg);
+					res.redirect(req.path);
+				}
+			});
+
+		});
+	}
 });
 
 //Routes for add image
