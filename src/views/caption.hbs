@@ -1,8 +1,16 @@
-<img src="{{imgLink}}" alt="{{imgLink}}" width="400">
+<h3>
+  {{image.name}} by {{image.creator_ID}} <br>
+  {{image.created_Date}}
+</h3>
+<img src="{{image.imgURL}}" alt="{{imgLink}}" width="250">
+
+{{#if message}}
+  <p>{{message}}</p>
+{{/if}}
 
 <ol>
-{{#each captionList}}
-  <p>{{this}} &nbsp
+{{#each image.captions}}
+  <p>{{this.caption}} &nbsp
     <input type="button" class="caption-up-vote-button" id={{this}} value="I like!">
   </p>
 {{/each}}
@@ -20,7 +28,7 @@
 
 <h3>Add your touch!</h3>
 <form method="POST" action="">
-    Caption: <input type="text" name="what" value=""> <br>
+    Caption: <input type="text" name="caption" value=""> <br>
     <input type="submit" value="Add">
     <br><br>
 </form>

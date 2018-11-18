@@ -3,12 +3,17 @@
 //Lap Yan Cheung (lyc286)
 
 const express = require('express');
+const mongoose = require('mongoose');
+require('./db');
+
 const path = require('path');
 const bodyParser = require('body-parser');
-//const db = require('./db');
 const session = require('express-session'); //session ID
 // retrieve data from db
-const mongoose = require('mongoose');
+const Image = mongoose.model('Image');
+const User = mongoose.model('User');
+const Caption = mongoose.model('Caption');
+
 
 //use sounds router
 
@@ -58,28 +63,90 @@ app.use(function(req, res, next){
 
 //Routes for image feed
 app.get('/', (req, res)=> {
+	/*
   imgLinks = ['img/sample_1.jpg', 'img/sample_2.jpg', 'img/sample_3.jpg', 'img/sample_4.jpg'];
   res.render('home', {imgList: imgLinks});
+	*/
+	//Image.find()
+	Image.find({}, function(err, imgs, count){
+    if (err) {
+      res.status(500).send("Internal Error");
+    } else {
+      //console.log(`# of articles: ${imgs.length}`);
+			console.log("IMAGE: "+imgs);
+      res.render("home.hbs", {imgList: imgs});
+    }
+  });
 });
 
 //Dummy counter
-let counter = 0;
 
 //Recieves data when user clicks a button in home screen
 app.post('/', (req, res)=> {
-	counter+=1;
-	console.log("IMG CLICKED: "+req.body.img_id);
-	console.log("Counter: "+counter);
+	Image.findOneAndUpdate({_id: req.body.img_id}, {$inc:{score:1}}, function(err, img, count){
+		if (err) {
+			const errMsg = "UPVOTE UPDATE ERROR";
+			console.log(errMsg);
+		} else {
+			console.log(img.name +" score INCREMENTED");
+		}
+	});
 	res.redirect('/');
-})
-
-app.get('/sampleImageCaptionPage', (req, res)=> {
-  imgCaptions = ['shook', 'Midterms SZN', 'What is life?', '10+ years of experience?'];
-  res.render('caption', {imgLink: 'img/sample_1.jpg', captionList: imgCaptions});
 });
 
-app.post('/sampleImageCaptionPage', (req, res) => {
-  res.redirect('/');
+//Use regex to access the caption page for images
+app.get(/\/img\/[a-z]+/, (req, res)=> {
+	const imgSLUG = req.path.split("/")[2];
+	Image.findOne({slug: imgSLUG}, function(err, img, count){
+		if (err) {
+			console.log("LOAD CAPTION PAGE ERROR");
+			res.redirect('/');
+		} else {
+			console.log("IMAGE_CAPTION: "+img);
+			res.render('caption', {image: img});
+		}
+	});
+  //res.render('caption', {imgLink: 'sample_1.jpg', captionList: imgCaptions});
+});
+
+app.post(/\/img\/[a-z]+/, (req, res) => {
+	const imgSLUG = req.path.split("/")[2];
+  const newCaption = new Caption({
+		caption: req.body.caption,
+		captionCreator: "123456",
+		score: 0,
+	});
+
+	Image.findOne({slug: imgSLUG}, function(err, img, count) {
+		//if (newCaption.caption!=='') {
+		img.captions.push(newCaption);
+		//	res.render('caption', {image: img, message: "Can't submit an empty caption"});
+		//};
+		img.save(function(err, savedImg, count) {
+			if (err) {
+				console.log("Save error");
+				res.render('caption', {image: img, message: "Save error"});
+			} else {
+				//console.log("CAPTIONS-2: "+img.captions);
+				console.log("Saved: "+savedImg);
+				res.redirect(req.path);
+			}
+		});
+	});
+	/*
+	Image.findOneAndUpdate({slug: imgSLUG}, {$push:{captions: newCaption}}, function(err, img, count){
+		let msg = "";
+		if (err) {
+			msg = "Caption Input Error"
+			console.log(msg);
+			res.render('caption', {images: img, message: msg});
+		} else {
+			//img.captions.push(newCaption);
+			console.log("Caption saved: "+newCaption.caption);
+			res.redirect(req.path);
+		}
+	});
+	*/
 });
 
 //Routes for add image
@@ -88,7 +155,25 @@ app.get('/addImg', (req, res) => {
 });
 
 app.post('/addImg', (req, res) => {
-  res.redirect('/');
+	new Image({
+		name: req.body.name,
+		imgURL: req.body.url,
+		creator_ID: "sampleTestingID123",
+		created_Date: new Date(),
+		score: 0,
+		tags: req.body.tags.toLowerCase().split(" "),
+		captions: []
+	}).save(function(err, img, count) {
+		if (err){
+			const errMsg = "SAVE ARTICLE ERROR";
+			console.log(err);
+			res.render('addImg');
+		} else {
+			console.log("Img saved: "+ req.body.name);
+			res.redirect('/');
+		}
+	});
+  //res.redirect('/');
 });
 
 //Route for profile

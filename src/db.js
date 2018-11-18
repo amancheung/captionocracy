@@ -12,14 +12,19 @@ const UserSchema = new mongoose.Schema({
 	password: {type: String, required: true},
   history: Array
 });
-// register schema to db
-mongoose.model("User", UserSchema);
 
 // schema for how each caption entry for an image will be saved and used by imageSchema
 const CaptionSchema = new mongoose.Schema({
   caption: {type: String, required: true},
-  captionCreator: {type: String, required: true}, // Created automatically when a caption is posted
+  captionCreator: {type: String, ref: 'User', required: true}, // Created automatically when a caption is posted
   score: {type: Number, required: true},
+});
+
+CaptionSchema.pre('save', function (next) {
+  if ('' == this.caption) {
+    return next(new Error('Empty caption'));
+  }
+  next();
 });
 
 // schema for how each image entry will be saved in DB
@@ -36,8 +41,9 @@ const ImageSchema = new mongoose.Schema({
 //Create slug for each image
 ImageSchema.plugin(URLSlugs('name created_Date'));
 
+// register schema to db
+mongoose.model("User", UserSchema);
 mongoose.model("Image", ImageSchema);
-
 mongoose.model("Caption", CaptionSchema);
 
 mongoose.connect('mongodb://localhost/finalprj', {useNewUrlParser: true});

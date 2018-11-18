@@ -1,10 +1,7 @@
 body {
-  background-color: salmon;
-  color: teal;
-  font-family: helvetica;
+  font-family: "Wavehaus";
+  margin: 10;
+  background-color: #FFCE00;
 }
 
-#query {
-  height: 20px;
-  width: 400px;
-}
+/*# sourceMappingURL=base.css.map */

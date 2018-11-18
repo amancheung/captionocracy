@@ -4,13 +4,20 @@
 </form>
 
 {{#each imgList}}
-  <p>
-    <a href="/sampleImageCaptionPage">
-      <img src="{{this}}" alt="link" width="250">
+  <div>
+    <h3>
+      {{this.name}}&nbsp by {{this.creator_ID}}<br>
+      {{this.created_Date}}
+    </h3>
+    <a href="/img/{{this.slug}}">
+      <img src="{{this.imgURL}}" alt="link" width="250">
     </a>
     <br>
-    <input type="button" class="img-up-vote-button" id={{this}} value="YAS!">
-  </p>
+    <input type="button" class="img-up-vote-button" id={{this._id}} value="YAS!">
+    <br>
+    🔥
+    <p class= "fireCt" id="{{this._id}}_fire" style="display:inline">{{this.score}}</p>
+  </div>
 {{/each}}
 
 <!-- AJAX Javascript for handling when an upvote button is clicked-->
@@ -18,7 +25,12 @@
   const upBtns = document.getElementsByClassName("img-up-vote-button");
   Array.prototype.forEach.call(upBtns, function(ele) {
     ele.addEventListener('click', function() {
+        // Update vote count to database, and display it for client
         console.log(ele.id + "-clicked!");
+        const fireId = ele.id+"_fire";
+        const currF = document.getElementById(fireId);
+        console.log(currF); //debug - determine if correct element is accessed
+        currF.textContent = parseInt(currF.textContent)+1; //display to client
         const req = new XMLHttpRequest();
         req.open("POST", "/", true);
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

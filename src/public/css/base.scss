@@ -1,0 +1,14 @@
+$colors: (
+  base: #FFCE00, //sunflower-color
+  secondary: #0375B4, //starry-night-color
+  accent: #0EAA6D, //irises-color
+  other: #262228, //evening-color
+  button: #03FA76
+);
+
+
+body {
+  font-family: "Wavehaus";
+  margin: 10;
+  background-color: map-get($colors, base);
+}
