@@ -97,13 +97,21 @@ app.post('/', (req, res)=> {
 //Use regex to access the caption page for images
 app.get(/\/img\/[a-z]+/, (req, res)=> {
 	const imgSLUG = req.path.split("/")[2];
+	console.log("SLUG IS: "+imgSLUG);
 	Image.findOne({slug: imgSLUG}, function(err, img, count){
 		if (err) {
 			console.log("LOAD CAPTION PAGE ERROR");
 			res.redirect('/');
 		} else {
-			console.log("IMAGE_CAPTION: "+img);
-			res.render('caption', {image: img});
+			Caption.find({artID: img._id}, function(err, captions, count){
+				if (err) {
+					console.log("LOAD CAPTIONS ERROR");
+					res.redirect('/');
+				} else {
+					console.log("LOAD CAPTIONS SUCCESS");
+					res.render('caption', {image: img, captions: captions})
+				}
+			});
 		}
 	});
   //res.render('caption', {imgLink: 'sample_1.jpg', captionList: imgCaptions});
@@ -111,16 +119,17 @@ app.get(/\/img\/[a-z]+/, (req, res)=> {
 
 app.post(/\/img\/[a-z]+/, (req, res) => {
 	const imgSLUG = req.path.split("/")[2];
-	if (req.body.img_id) {
+	if (req.body.cap_id) {
 		//console.log("Vote!");
-		Image.findOne({slug: imgSLUG}, function(err, img, count){
+		Caption.findOneAndUpdate({_id: req.body.cap_id}, {$inc: {score :1}}, function(err, caption, count){
 			if (err) {
 				console.log(err);
 			} else {
-				const captionUpdate = img.captions.id(req.body.img_id);
+				/*
+				const captionUpdate = img.captions.id(req.body.cap_id);
 				captionUpdate.score += 1;
 				console.log("Updated Caption: "+captionUpdate);
-				img.captions.id(req.body.img_id).remove();
+				img.captions.id(req.body.cap_id).remove();
 				img.captions.push(captionUpdate);
 				img.save(function(err, saveUpdateImg, count){
 					if (err) {
@@ -129,17 +138,15 @@ app.post(/\/img\/[a-z]+/, (req, res) => {
 						console.log("Caption score updated");
 					}
 				});
+				*/
 			}
 		});
 	} else {
 		console.log("No Vote!");
-	  const newCaption = new Caption({
-			caption: req.body.caption,
-			captionCreator: "123456",
-			score: 0,
-		});
+
 
 		Image.findOne({slug: imgSLUG}, function(err, img, count) {
+			/*
 			//if (newCaption.caption!=='') {
 			img.captions.push(newCaption);
 			//	res.render('caption', {image: img, message: "Can't submit an empty caption"});
@@ -154,7 +161,26 @@ app.post(/\/img\/[a-z]+/, (req, res) => {
 					res.redirect(req.path);
 				}
 			});
-
+			*/
+			const newCaption = new Caption({
+				artID: img._id,
+				caption: req.body.caption,
+				captionCreator: "123456",
+				score: 0,
+			});
+			if (err) {
+				console.log("SAVE CAPTION ERROR -1");
+				res.redirect(req.path);
+			} else {
+				newCaption.save(function(err, savedCaption, count){
+					if (err) {
+						console.log("SAVE CAPTION ERROR -2");
+					} else {
+						console.log("NEW CAPTION SAVED");
+						res.redirect(req.path);
+					}
+				});
+			}
 		});
 	}
 });
@@ -199,4 +225,4 @@ app.get('/profile', (req, res) => {
 
 
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);

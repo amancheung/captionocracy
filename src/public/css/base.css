@@ -29,6 +29,7 @@ div.filter {
 }
 
 form.filter-bar {
+  font-family: Wavehaus;
   margin: 0 auto;
   padding-left: 10px;
   align-content: center;
@@ -148,8 +149,8 @@ div.image-capbox {
   background-color: #0375B4;
   color: #03FA76;
   border: 1px solid #0375B4;
-  width: 40%;
-  height: 60%;
+  width: 45%;
+  height: 50%;
   margin-bottom: 20px;
   margin-top: 20px;
   margin-left: auto;

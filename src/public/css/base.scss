@@ -37,6 +37,7 @@ div.filter {
 }
 
 form.filter-bar {
+  font-family: Wavehaus;
   margin: 0 auto;
   padding-left: 10px;
   align-content: center;
@@ -156,8 +157,8 @@ div.image-capbox {
   background-color: map-get($colors, secondary);
   color: map-get($colors, button);
   border: 1px solid map-get($colors, secondary);
-  width: 40%;
-  height: 60%;
+  width: 45%;
+  height: 50%;
   margin-bottom: 20px;
   margin-top: 20px;
   margin-left: auto;

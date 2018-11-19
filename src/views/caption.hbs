@@ -13,7 +13,7 @@
 
 <div class=captions>
   <ol>
-  {{#each image.captions}}
+  {{#each captions}}
     <p style="display:inline">{{this.caption}}
       <input type="button" class="caption-up-vote-button" id={{this.id}} value="I like!"> &nbsp 🙌
     </p>
@@ -34,7 +34,7 @@
         const req = new XMLHttpRequest();
         req.open("POST", "/img/{{image.slug}}", true);
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        req.send(`img_id=${ele.id}`);
+        req.send(`cap_id=${ele.id}`);
     });
   });
 </script>
@@ -43,6 +43,6 @@
   <h3>ADD A CAPTION</h3>
   <form method="POST" action="">
       <input type="text" name="caption" value=""> <br><br>
-      <input type="submit" value="post"> <br><br>
+      <input type="submit" value="Add"> <br><br>
   </form>
 </div>
