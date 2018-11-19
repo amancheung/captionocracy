@@ -6,6 +6,8 @@ $colors: (
   button: #03FA76
 );
 
+$font: 'Nunito', sans-serif;
+
 div.banner {
   text-align: center;
   color: map-get($colors, secondary);
@@ -27,7 +29,7 @@ div.banner a {
 }
 
 body {
-  font-family: "Wavehaus";
+  font-family: $font;
   margin: 10;
   background-color: map-get($colors, base);
 }
@@ -37,7 +39,7 @@ div.filter {
 }
 
 form.filter-bar {
-  font-family: Wavehaus;
+  font-family: $font;
   margin: 0 auto;
   padding-left: 10px;
   align-content: center;
@@ -58,7 +60,7 @@ form.filter-bar input[type=submit]{
   color: map-get($colors, base);
   font-size: 20px;
   padding: 5px 10px;
-  font-family: Wavehaus;
+  font-family: $font;
   font-weight:600;
   border-radius: 5px;
   cursor: pointer;
@@ -95,7 +97,7 @@ div.image-box input[type=button]{
   color: map-get($colors, other);
   font-size: 20px;
   padding: 3px 10px;
-  font-family: Wavehaus;
+  font-family: $font;
   font-weight:bold;
   border-radius: 5px;
   cursor: pointer;
@@ -145,7 +147,7 @@ div.img-upload input[type=submit] {
   color: map-get($colors, other);
   font-size: 28px;
   padding: 3px 12px;
-  font-family: Wavehaus;
+  font-family: $font;
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
@@ -194,7 +196,7 @@ div.add-caption {
 
 div.add-caption input[type=text]{
   width: 75%;
-  font-family: Wavehaus;
+  font-family: $font;
   background-color: map-get($colors, secondary);
   color: map-get($colors, base);
   border: none;
@@ -208,7 +210,7 @@ div.add-caption input[type=submit]{
   color: map-get($colors, button);
   font-size: 22px;
   padding: 3px 12px;
-  font-family: Wavehaus;
+  font-family: $font;
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
@@ -218,4 +220,29 @@ img {
     width: 100%;
     height: auto;
     padding-bottom: 1.5em;
+}
+
+@media only screen and (max-width: 600px) {
+
+    div.banner h1{
+      font-size: 30px;
+    }
+    div.image-box {
+      width: 100%;
+    }
+
+    div.filter {
+      width: 100%;
+    }
+
+    div.img-upload {
+      width: 100%;
+    }
+
+    div.image-capbox {
+      width: 100%;
+    }
+    div.add-caption {
+      width: 100%;
+    }
 }

@@ -19,7 +19,7 @@ div.banner a {
 }
 
 body {
-  font-family: "Wavehaus";
+  font-family: "Nunito", sans-serif;
   margin: 10;
   background-color: #FFCE00;
 }
@@ -29,7 +29,7 @@ div.filter {
 }
 
 form.filter-bar {
-  font-family: Wavehaus;
+  font-family: "Nunito", sans-serif;
   margin: 0 auto;
   padding-left: 10px;
   align-content: center;
@@ -50,7 +50,7 @@ form.filter-bar input[type=submit] {
   color: #FFCE00;
   font-size: 20px;
   padding: 5px 10px;
-  font-family: Wavehaus;
+  font-family: "Nunito", sans-serif;
   font-weight: 600;
   border-radius: 5px;
   cursor: pointer;
@@ -87,7 +87,7 @@ div.image-box input[type=button] {
   color: #262228;
   font-size: 20px;
   padding: 3px 10px;
-  font-family: Wavehaus;
+  font-family: "Nunito", sans-serif;
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
@@ -137,7 +137,7 @@ div.img-upload input[type=submit] {
   color: #262228;
   font-size: 28px;
   padding: 3px 12px;
-  font-family: Wavehaus;
+  font-family: "Nunito", sans-serif;
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
@@ -186,7 +186,7 @@ div.add-caption {
 
 div.add-caption input[type=text] {
   width: 75%;
-  font-family: Wavehaus;
+  font-family: "Nunito", sans-serif;
   background-color: #0375B4;
   color: #FFCE00;
   border: none;
@@ -200,7 +200,7 @@ div.add-caption input[type=submit] {
   color: #03FA76;
   font-size: 22px;
   padding: 3px 12px;
-  font-family: Wavehaus;
+  font-family: "Nunito", sans-serif;
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
@@ -210,6 +210,32 @@ img {
   width: 100%;
   height: auto;
   padding-bottom: 1.5em;
+}
+
+@media only screen and (max-width: 600px) {
+  div.banner h1 {
+    font-size: 30px;
+  }
+
+  div.image-box {
+    width: 100%;
+  }
+
+  div.filter {
+    width: 100%;
+  }
+
+  div.img-upload {
+    width: 100%;
+  }
+
+  div.image-capbox {
+    width: 100%;
+  }
+
+  div.add-caption {
+    width: 100%;
+  }
 }
 
 /*# sourceMappingURL=base.css.map */
