@@ -179,6 +179,18 @@ div.captions {
   font-size: 20px;
 }
 
+div.captions input[type=button] {
+  background-color: map-get($colors, button);
+  border: none;
+  color: map-get($colors, secondary);
+  font-size: 15px;
+  padding: 3px 8px;
+  font-family: $font;
+  font-weight:bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 div.add-caption {
   text-align: center;
   background-color: map-get($colors, base);

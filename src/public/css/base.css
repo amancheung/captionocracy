@@ -169,6 +169,18 @@ div.captions {
   font-size: 20px;
 }
 
+div.captions input[type=button] {
+  background-color: #03FA76;
+  border: none;
+  color: #0375B4;
+  font-size: 15px;
+  padding: 3px 8px;
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 div.add-caption {
   text-align: center;
   background-color: #FFCE00;
