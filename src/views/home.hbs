@@ -9,10 +9,12 @@
 {{#each imgList}}
   <div class="image-box">
     <h3>
-      {{this.name}}&nbsp by {{this.creator_ID}}<br>
+      {{this.name}}
+      <br>
+      by {{this.creator_ID}}<br>
       <t>{{this.created_Date}}</t>
     </h3>
-    <a href="/img/{{this.slug}}">
+    <a class="img_frame" href="/img/{{this.slug}}">
       <img src="{{this.imgURL}}" alt="link" width="250">
     </a>
     <br>

@@ -2,8 +2,9 @@
 
 <div class=image-capbox>
   <h3>
-    {{image.name}} by {{image.creator_ID}} <br>
-    {{image.created_Date}}
+    {{image.name}}<br>
+    by {{image.creator_ID}} <br>
+    <t>{{image.created_Date}}</t>
   </h3>
   <img src="{{image.imgURL}}" alt="{{imgLink}}" width="250">
 </div>
@@ -43,6 +44,6 @@
   <h3>ADD A CAPTION</h3>
   <form method="POST" action="">
       <input type="text" name="caption" value=""> <br><br>
-      <input type="submit" value="Add"> <br><br>
+      <input type="submit" value="post"> <br><br>
   </form>
 </div>

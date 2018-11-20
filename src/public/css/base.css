@@ -7,6 +7,7 @@ div.banner h1 {
   display: inline;
   padding-bottom: none;
   font-size: 40px;
+  font-weight: 900;
   background-color: #0375B4;
   color: #FFCE00;
   width: auto;
@@ -156,6 +157,11 @@ div.image-capbox {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+div.image-capbox t {
+  font-size: 14px;
+  font-weight: lighter;
 }
 
 div.captions {
