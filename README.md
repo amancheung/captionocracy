@@ -1,9 +1,8 @@
 # Caption-o-cracy
 <img src="img/finalprj_overview.png" alt="prj_overview" width="450"/>
 
-## Summary for Milestone #2
-
-### Progress log
+## Progress log
+### Summary for Milestone #2
 1. Implemented basic functionalities of the site:
 	- User can upload an image via URL
 	- User can view uploaded images at homepage
@@ -48,7 +47,7 @@ What if you found an image on the Web and you know it is dying for a witty capti
 
 You can upload your image, and other users can upvote it if they think it's cool. Within your image upload, other users can upload their captions and be voted on. To make things easier, the app will rank each image and caption by its upvotes, so that you can find the best images and captions for today.
 
-## Data Model <br/>
+## Data Model
 The application will store Users (Vote and Upload history), Images, and Image-Captions
 
 Each Image has its own ID (Collision avoiding algorithm needed) </br>
