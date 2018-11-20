@@ -184,7 +184,7 @@ div.captions input[type=button] {
   border: none;
   color: map-get($colors, secondary);
   font-size: 15px;
-  padding: 3px 8px;
+  padding: 3px;
   font-family: $font;
   font-weight:bold;
   border-radius: 5px;
@@ -240,7 +240,9 @@ img {
     padding-bottom: 1.5em;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 812px)  {
 
     div.banner h1{
       font-size: 30px;
