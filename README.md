@@ -1,6 +1,48 @@
 # Caption-o-cracy
 <img src="img/finalprj_overview.png" alt="prj_overview" width="450"/>
 
+## Summary for Milestone #2
+
+### Progress log
+1. Implemented basic functionalities of the site:
+	- User can upload an image via URL
+	- User can view uploaded images at homepage
+	- User can do an "upvote" on images: Total votes for an image is also viewable
+		- Real-time update when a vote is casted by the user via client-side javascript
+	- User can upload a caption for each image
+	- User can do an "upvote" on captions
+		- Real-time update when a vote is casted by the user via client-side javascript
+
+2. Implemented UI design with Sass and CSS:
+	- Customized elements of the site, including:
+		- Font
+		- Headers
+		- Display boxes
+		- Forms
+		- Buttons
+	- UI and Screen size responsivity
+
+3. Features to be implemented
+	- Images ranked by votes in homepage
+	- Captions ranked by votes in image-caption page
+	- Viewable user profiles
+	- User authentication via Passport
+	- Client-side input verification
+
+### Wireframes from [website](http://linserv1.cims.nyu.edu:14930/)
+Homepage with UI created with Sass </br>
+<img src="img/milestone_2_home.png" alt="home" width="500">
+</br>
+Homepage with a smaller screen </br>
+<img src="img/milestone_2_home_mobile.png" alt="home" height="500">
+</br>
+Upload an image </br>
+<img src="img/milestone_2_addImg.png" alt="home" width="500">
+</br>
+Add a caption </br>
+<img src="img/milestone_2_addCaption.png" alt="home" width="500">
+</br>
+
 ## Overview 
 What if you found an image on the Web and you know it is dying for a witty caption? Caption-o-cracy is here for you!
 
@@ -78,7 +120,7 @@ View and Vote on Captions </br>
 - 2 points -> Use Bootstrap CSS, create readable and mobile friendly UI
 - 1 point -> Have client-side verification for data inputs, let users know of errors and correct them before wondering if their incorrect data is uploaded or not
 
-## Link to main project file (skeleton app) </br>
+## Link to main project file (app in progress) </br>
 [Available here](src/app.js)
 
 ## References: </br>
