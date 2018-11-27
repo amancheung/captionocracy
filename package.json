@@ -2,7 +2,7 @@
   "name": "finalprj_files",
   "version": "1.0.0",
   "description": "An app that allows users to vote on images and their captions, as well as upload their own",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +20,11 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "hbs": "^4.0.1",
-    "mongoose": "^5.3.9"
+    "mongoose": "^5.3.14",
+    "mongoose-url-slugs": "^1.0.2",
+    "sass": "^1.15.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.7"
   }
 }
