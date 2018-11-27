@@ -1,29 +1,43 @@
-<div class="filter">
-  <form class="filter-bar" method="GET" action="">
-    <input type="text" id="query" name="filterQuery" placeholder="Enter tags">
-    <input type="submit" value="Filter">
-  </form>
-</div>
-
-
-{{#each imgList}}
-  <div class="image-box">
-    <h3>
-      {{this.name}}
-      <br>
-      by {{this.creator_ID}}<br>
-      <t>{{this.created_Date}}</t>
-    </h3>
-    <a class="img_frame" href="/img/{{this.slug}}">
-      <img src="{{this.imgURL}}" alt="link" width="250">
-    </a>
-    <br>
-    <input type="button" class="img-up-vote-button" id={{this._id}} value="YAS!">
-    <br>
-    🔥
-    <p class= "fireCt" id="{{this._id}}_fire" style="display:inline">{{this.score}}</p>
+<div class="home">
+  <div class="filter">
+    <form class="filter-bar" method="GET" action="">
+      <input type="text" id="query" name="filter" placeholder="Enter tags">
+      <input type="submit" value="Filter">
+    </form>
   </div>
-{{/each}}
+
+  {{#if term}}
+    <h4>
+      tag searched: <u>{{term}}</u>, {{count}} image returned
+    </h4>
+  {{/if}}
+
+  {{#each imgList}}
+    <div class="image-box">
+      <p class="tags">
+        Tags:
+        {{#each this.tags}}
+          <a href="?filter={{this}}">{{this}}</a>
+        {{/each}}
+      </p>
+      <h3>
+        {{this.name}}
+        <br>
+        by {{this.creator_ID}}<br>
+        <t>{{this.created_Date}}</t>
+      </h3>
+      <a class="img_frame" href="/img/{{this.slug}}">
+        <img src="{{this.imgURL}}" alt="link" width="250">
+      </a>
+      <br>
+      
+      <input type="button" class="img-up-vote-button" id={{this._id}} value="YAS!">
+      <br>
+      🔥
+      <p class= "fireCt" id="{{this._id}}_fire" style="display:inline">{{this.score}}</p>
+    </div>
+  {{/each}}
+</div>
 
 <!-- AJAX Javascript for handling when an upvote button is clicked-->
 <script>

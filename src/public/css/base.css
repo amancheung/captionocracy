@@ -25,6 +25,11 @@ body {
   background-color: #FFCE00;
 }
 
+div.home {
+  color: #0375B4;
+  text-align: center;
+}
+
 div.filter {
   text-align: center;
 }
@@ -46,6 +51,7 @@ form.filter-bar input[type=text] {
 }
 
 form.filter-bar input[type=submit] {
+  -webkit-appearance: none;
   background-color: #0375B4;
   border: none;
   color: #FFCE00;
@@ -70,6 +76,10 @@ div.image-box {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+div.image-box a {
+  color: #FFCE00;
 }
 
 div.image-box h3 {
@@ -232,15 +242,38 @@ img {
 
 @media only screen and (min-device-width: 375px) and (max-device-width: 812px) {
   div.banner h1 {
-    font-size: 30px;
+    font-size: 80px;
+  }
+
+  div.banner a {
+    font-size: 60px;
   }
 
   div.image-box {
     width: 100%;
+    font-size: 40px;
+  }
+
+  div.image-box h3 {
+    font-size: 45px;
+  }
+
+  div.image-box input[type=button] {
+    font-size: 50px;
   }
 
   div.filter {
     width: 100%;
+  }
+
+  form.filter-bar input[type=text] {
+    font-family: "Nunito", sans-serif;
+    width: 75%;
+    font-size: 45px;
+  }
+
+  form.filter-bar input[type=submit] {
+    font-size: 50px;
   }
 
   div.img-upload {

@@ -39,7 +39,7 @@ app.use(express.static(publicPath));
 app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.urlencoded({extended: false}));
 const logger = (req, res, next) => {
-  console.log(`Req Method: ${req.method} Req Path: ${req.path} Req Query: ${Object.values(req.query)}Req Body: ${JSON.stringify(req.body)}`);
+  console.log(`Req Method: ${req.method} Req Path: ${req.path} Req Query: ${Object.values(req.query)} Req Body: ${JSON.stringify(req.body)}`);
   next();
 };
 
@@ -62,24 +62,36 @@ app.use(function(req, res, next){
 });
 
 //Routes for image feed
+//Ref for mongoose sorting: https://medium.com/@jeanjacquesbagui/in-mongoose-sort-by-date-node-js-4dfcba254110
 app.get('/', (req, res)=> {
-	/*
-  imgLinks = ['img/sample_1.jpg', 'img/sample_2.jpg', 'img/sample_3.jpg', 'img/sample_4.jpg'];
-  res.render('home', {imgList: imgLinks});
-	*/
-	//Image.find()
-	Image.find({}, function(err, imgs, count){
+	Image.find({}).sort('-score').exec(function(err, imgs, count){
     if (err) {
       res.status(500).send("Internal Error");
     } else {
-      //console.log(`# of articles: ${imgs.length}`);
+			let filterTerm = '';
+			let filteredResultCount = 0;
+			//If filter is entered - display filtered results
+			if (req.query.filter && req.query.filter!==''){
+				console.log(`Filter ${req.query.filter} is entered`); //Debug log
+				//Function to filter results by tag
+				imgs = imgs.filter(function(art) {
+					for (const t of art.tags) {
+		        if (t===req.query.filter.toLowerCase()) {
+		          return true;
+		        }
+      		}
+      		return false;
+				});
+				filterTerm = req.query.filter;
+				filteredResultCount = imgs.length;
+			} else {
+				console.log("No filter"); //Debug log
+			}
 			console.log("IMAGE: "+imgs);
-      res.render("home.hbs", {imgList: imgs});
+      res.render("home.hbs", {imgList: imgs, term: filterTerm, count: filteredResultCount});
     }
   });
 });
-
-//Dummy counter
 
 //Recieves data when user clicks a button in home screen
 app.post('/', (req, res)=> {
@@ -95,15 +107,16 @@ app.post('/', (req, res)=> {
 });
 
 //Use regex to access the caption page for images
+//Ref for mongoose sorting: https://medium.com/@jeanjacquesbagui/in-mongoose-sort-by-date-node-js-4dfcba254110
 app.get(/\/img\/[a-z]+/, (req, res)=> {
 	const imgSLUG = req.path.split("/")[2];
 	console.log("SLUG IS: "+imgSLUG);
-	Image.findOne({slug: imgSLUG}, function(err, img, count){
+	Image.findOne(({slug: imgSLUG}), function(err, img, count){
 		if (err) {
 			console.log("LOAD CAPTION PAGE ERROR");
 			res.redirect('/');
 		} else {
-			Caption.find({artID: img._id}, function(err, captions, count){
+			Caption.find({artID: img._id}).sort("-score").exec(function(err, captions, count){
 				if (err) {
 					console.log("LOAD CAPTIONS ERROR");
 					res.redirect('/');
@@ -143,7 +156,6 @@ app.post(/\/img\/[a-z]+/, (req, res) => {
 		});
 	} else {
 		console.log("No Vote!");
-
 
 		Image.findOne({slug: imgSLUG}, function(err, img, count) {
 			/*

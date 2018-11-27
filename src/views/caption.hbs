@@ -27,7 +27,7 @@
 <script>
   const upBtns = document.getElementsByClassName("caption-up-vote-button");
   Array.prototype.forEach.call(upBtns, function(ele) {
-    ele.addEventListener('click', function() {
+    	ele.addEventListener('click', function() {
         console.log(ele.id + "-clicked!");
         const upCaptionId = ele.id+"_UP";
         const currUpCaption = document.getElementById(upCaptionId);
