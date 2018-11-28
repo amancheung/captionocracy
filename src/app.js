@@ -303,6 +303,10 @@ app.get('/login', (req, res) => {
 	res.render('login');
 });
 
+app.get('/register', (req, res) => {
+	res.redirect('/login');
+})
+
 /*
 //Regular passport
 app.post('/login', (req, res) =>{
