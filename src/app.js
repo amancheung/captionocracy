@@ -14,9 +14,14 @@ const Image = mongoose.model('Image');
 const User = mongoose.model('User');
 const Caption = mongoose.model('Caption');
 
-const passport = require('passport');
-const passportFB = require('./fbauth');
+//const passport = require('passport');
+//const passportFB = require('./fbauth');
 
+const passport = require('passport');
+const passportGH = require('./githubauth');
+
+//const passport = require('./auth');
+//const bcrypt = require('bcrypt');
 //use sounds router
 
 //Message for debugging - start server
@@ -254,9 +259,60 @@ app.post('/addImg', (req, res) => {
   //res.redirect('/');
 });
 
+/*
+app.get('/register', (req, res) => {
+	res.render('register');
+});
+
+app.post('/register', (req, res) => {
+	User.findOne({username: req.body.username}, function(err, usr, count){
+		if (err){
+			console.log("USERNAME VALIDATION ERROR");
+		} else {
+			if (usr) {
+				console.log("USERNAME ALREADY TAKEN");
+				res.redirect('/register');
+			} else {
+				//Save bcrypt-hashed passwod
+				bcrypt.hash(req.body.password, 10, function(err, hash) {
+					if (err) {
+						console.log("PASSWORD GENERATION ERROR");
+					} else {
+						new User({
+							username: req.body.username,
+							password: hash
+						}).save(function(err, newUsr, count) {
+							if (err){
+								console.log("User creation error");
+							} else {
+								console.log("New user created: "+newUsr.username);
+								passport.authenticate('local', { failureRedirect: '/login' }),
+							  function(req, res) {
+							    res.redirect('/');
+							  }
+							}
+						});
+					}
+				});
+			}
+		}
+	});
+});
+*/
 app.get('/login', (req, res) => {
 	res.render('login');
 });
+
+/*
+//Regular passport
+app.post('/login', (req, res) =>{
+	//req.body.password =
+	passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+});
+*/
 
 //Logout implementation ref: https://github.com/jaredhanson/passport-facebook/issues/202
 app.get('/logout', (req, res) => {
@@ -279,12 +335,25 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-app.get('/fbauth', passportFB.authenticate('facebook'));
+//Facebook auth
+//app.get('/fbauth', passportFB.authenticate('facebook'));
 
+/*
 app.get('/fbauth/callback', passportFB.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
     // Successful authentication, redirect home.
     res.redirect('/');
 });
+*/
+
+//Github auth
+app.get('/githubauth', passportGH.authenticate('github'));
+
+
+app.get('/githubauth/callback', passportGH.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+});
+
 
 //Route for profile
 app.get('/profile', (req, res) => {
