@@ -14,6 +14,8 @@ const Image = mongoose.model('Image');
 const User = mongoose.model('User');
 const Caption = mongoose.model('Caption');
 
+const passport = require('passport');
+const passportFB = require('./fbauth');
 
 //use sounds router
 
@@ -21,6 +23,9 @@ const Caption = mongoose.model('Caption');
 console.log("Server has started");
 //Create app with express
 const app = express();
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 const sessionOptions = {
 	secret: 'imgSesh',
@@ -56,14 +61,32 @@ app.use((req, res, next) => {
 //middleware to access res.local
 app.use(function(req, res, next){
   res.locals.session = req.session;
+	//res.locals.user = req.session.passport.user;
   //res.locals.authenticated = ! req.user.anonymous;
   console.log("Session ID #"+res.locals.session.id);
   next();
 });
 
+//Class for every user content upload action
+class Upload {
+	//Record type of action - Image upload or Caption upload its Date
+	constructor(type, date, content, link){
+		this.type = type;
+		this.date = date;
+		this.content = content;
+		this.link = link;
+	}
+}
+
 //Routes for image feed
 //Ref for mongoose sorting: https://medium.com/@jeanjacquesbagui/in-mongoose-sort-by-date-node-js-4dfcba254110
 app.get('/', (req, res)=> {
+	//Debug
+	if (req.session.passport){
+		console.log("USER: "+req.session.passport.user.displayName);
+	} else {
+		console.log("NOT LOGGED IN");
+	}
 	Image.find({}).sort('-score').exec(function(err, imgs, count){
     if (err) {
       res.status(500).send("Internal Error");
@@ -206,7 +229,7 @@ app.post('/addImg', (req, res) => {
 	new Image({
 		name: req.body.name,
 		imgURL: req.body.url,
-		creator_ID: "sampleTestingID123",
+		creator_ID: req.session.passport.user.displayName,
 		created_Date: new Date(),
 		score: 0,
 		tags: req.body.tags.toLowerCase().split(" "),
@@ -218,10 +241,49 @@ app.post('/addImg', (req, res) => {
 			res.render('addImg');
 		} else {
 			console.log("Img saved: "+ req.body.name);
+			//Also record this action to user's db entry
+			const newImgUpload = new Upload("Image upload", new Date(), img.name, "/img/"+img.slug);
+			User.findOneAndUpdate({userID: req.session.passport.user.id}, {$push: {history: newImgUpload}}, function(err, usr, count){
+				if (err){
+					console.log("SAVE RECORD TO USER ERROR");
+				}
+			});
 			res.redirect('/');
 		}
 	});
   //res.redirect('/');
+});
+
+app.get('/login', (req, res) => {
+	res.render('login');
+});
+
+//Logout implementation ref: https://github.com/jaredhanson/passport-facebook/issues/202
+app.get('/logout', (req, res) => {
+	//res.render('logout');
+		req.session.destroy((err) => {
+		if(err) return next(err)
+
+		req.logout();
+		//res.sendStatus(200);
+		res.redirect('/')
+	})
+});
+
+//Pasport setup
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+app.get('/fbauth', passportFB.authenticate('facebook'));
+
+app.get('/fbauth/callback', passportFB.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
+    // Successful authentication, redirect home.
+    res.redirect('/');
 });
 
 //Route for profile

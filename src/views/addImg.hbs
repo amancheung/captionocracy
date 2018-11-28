@@ -8,3 +8,24 @@
       <br><br>
   </form>
 </div>
+
+<script>
+  const inputs = document.querySelectorAll('input[type="text"]');
+  const submit = document.querySelector(".filter-btn");
+  const banner = document.querySelector("div.banner")
+
+
+  submit.addEventListener('click', function(c){
+    for (const i of inputs){
+        if (i.value===""){
+            //Client-side check if fields are complete
+            c.preventDefault();
+        	  console.log("Information incomplete");
+            const errMsg = document.createElement("h3.errMsg");
+            errMsg.textContent = "Please fill in all boxes";
+            banner.append(errMsg);
+            break;
+        }
+    }
+  });
+</script>

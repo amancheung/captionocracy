@@ -1,12 +1,14 @@
-<h2>Name: {{sampleUser.name}}</h2>
+<h2>Name: {{session.passport.user.displayName}}</h2>
 
-<h3>Your Image uploads</h3>
-{{#each sampleUser.imgUploads}}
-  <li>
-    <a href="{{this.link}}">{{this.name}}</a>
-  </li>
-{{/each}}
-
+<ol>
+  <h3>Your usage history</h3>
+  {{#each session.passport.user.history}}
+    <li>
+      <p>{{this.type}} at {{this.date}}-<a href="{{this.link}}">{{this.content}}</a></p>
+    </li>
+  {{/each}}
+</ol>
+<!--
 <h3>Your Image votes</h3>
 {{#each sampleUser.imgVotes}}
   <li>
@@ -20,3 +22,4 @@
     <a href="{{this.link}}">{{this.name}}</a> - {{this.caption}}</a>
   </li>
 {{/each}}
+-->

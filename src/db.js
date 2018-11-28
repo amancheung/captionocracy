@@ -2,6 +2,7 @@
 //Dummy database
 
 const mongoose = require('mongoose');
+const findOrCreate = require('mongoose-findorcreate');
 
 // is the environment variable, NODE_ENV, set to DEV?
 let dbconf;
@@ -29,10 +30,12 @@ const URLSlugs = require('mongoose-url-slugs');
 // schema goes here
 // create sound schema w/ data validation
 const UserSchema = new mongoose.Schema({
-	username: {type: String, required: true},
-	password: {type: String, required: true},
+	userId: {type: String, required: true},
+	displayName: {type: String, required: true},
   history: Array
 });
+
+UserSchema.plugin(findOrCreate);
 
 // schema for how each caption entry for an image will be saved and used by imageSchema
 const CaptionSchema = new mongoose.Schema({

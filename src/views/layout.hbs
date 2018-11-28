@@ -31,10 +31,21 @@
 	<h4>
 	  <a href="/">Home</a>
 	  <br>
-	  <a href="/addImg">Add an Image</a>
-	  <br>
-	  <a href="/profile">My Profile</a>
-	  <br>
+		{{#if session.passport.user}}
+			<username>
+				Sup? {{session.passport.user.displayName}}
+			</username>
+			<br>
+		  <a href="/addImg">Add an Image</a>
+		  <br>
+		  <a href="/profile">My Profile</a>
+		  <br>
+			<a href="/logout">Logout</a>
+			<br>
+		{{else}}
+			<a href="/login">Login</a>
+			<br>
+		{{/if}}
 	</h4>
 </div>
 <body>
