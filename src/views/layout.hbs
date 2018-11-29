@@ -28,14 +28,16 @@
 	<h1>
 	  Caption-O-Cracy
 	</h1>
+	<br>
+	{{#if session.passport.user}}
+		<username>
+			Sup? {{session.passport.user.displayName}}
+		</username>
+	{{/if}}
 	<h4>
 	  <a href="/">Home</a>
-	  <br>
+		<br>
 		{{#if session.passport.user}}
-			<username>
-				Sup? {{session.passport.user.displayName}}
-			</username>
-			<br>
 		  <a href="/addImg">Add an Image</a>
 		  <br>
 		  <a href="/profile">My Profile</a>

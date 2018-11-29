@@ -12,16 +12,20 @@
 <script>
   const inputs = document.querySelectorAll('input[type="text"]');
   const submit = document.querySelector(".filter-btn");
-  const banner = document.querySelector("div.banner")
-
+  const banner = document.querySelector(".banner")
 
   submit.addEventListener('click', function(c){
+    const errMsg = document.querySelector("h3.errMsg");
+    if (errMsg){
+      errMsg.remove();
+    }
     for (const i of inputs){
         if (i.value===""){
             //Client-side check if fields are complete
             c.preventDefault();
         	  console.log("Information incomplete");
-            const errMsg = document.createElement("h3.errMsg");
+            const errMsg = document.createElement("h3");
+            errMsg.className="errMsg";
             errMsg.textContent = "Please fill in all boxes";
             banner.append(errMsg);
             break;

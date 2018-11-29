@@ -15,7 +15,9 @@ div.banner h1 {
 }
 
 div.banner username {
+  display: inline-block;
   font-size: 18px;
+  font-weight: bold;
   color: #0EAA6D;
 }
 
@@ -33,6 +35,11 @@ body {
 div.home {
   color: #0375B4;
   text-align: center;
+}
+
+.errMsg {
+  font-size: 20px;
+  color: #ff3300;
 }
 
 div.filter {
@@ -112,11 +119,11 @@ div.image-box input[type=button] {
 div.login {
   border-radius: 10px;
   box-shadow: 2px 3px 3px #b38f00;
-  background-color: #FFCE00;
-  color: #0375B4;
-  border: 1px solid #0375B4;
-  width: 30%;
-  height: 30%;
+  background-color: #0EAA6D;
+  color: #FFCE00;
+  border: 1px solid #0EAA6D;
+  width: 40%;
+  height: 40%;
   margin-bottom: 2.5%;
   margin-top: 2.5%;
   margin-left: auto;
@@ -130,7 +137,7 @@ div.login h3 {
   font-weight: bold;
 }
 
-div.login a.fb-login-btn {
+div.login a.github-login-btn {
   -webkit-appearance: input;
   -moz-appearance: input;
   appearance: input;
@@ -280,6 +287,45 @@ img {
   width: 100%;
   height: auto;
   padding-bottom: 1.5em;
+}
+
+div.profile {
+  font-size: 23px;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 2px 3px 3px #b38f00;
+  background-color: #0EAA6D;
+  color: #FFCE00;
+  border: 1px solid #0EAA6D;
+  width: 65%;
+  height: 40%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+div.profile h2 {
+  margin-bottom: 0px;
+}
+
+div.profile h3 {
+  background-color: #FFCE00;
+  display: inline-block;
+  color: #0EAA6D;
+  font-size: 23px;
+  text-align: inherit;
+}
+
+div.profile li {
+  list-style: circle;
+  font-size: 20px;
+  text-align: left;
+}
+
+div.profile a {
+  color: #03FA76;
 }
 
 @media only screen and (min-device-width: 375px) and (max-device-width: 812px) {

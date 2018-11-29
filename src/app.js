@@ -186,22 +186,6 @@ app.post(/\/img\/[a-z]+/, (req, res) => {
 		console.log("No Vote!");
 
 		Image.findOne({slug: imgSLUG}, function(err, img, count) {
-			/*
-			//if (newCaption.caption!=='') {
-			img.captions.push(newCaption);
-			//	res.render('caption', {image: img, message: "Can't submit an empty caption"});
-			//};
-			img.save(function(err, savedImg, count) {
-				if (err) {
-					console.log("Save error");
-					res.render('caption', {image: img, message: "Save error"});
-				} else {
-					//console.log("CAPTIONS-2: "+img.captions);
-					console.log("Saved: "+savedImg);
-					res.redirect(req.path);
-				}
-			});
-			*/
 			const newCaption = new Caption({
 				artID: img._id,
 				caption: req.body.caption,
@@ -217,6 +201,13 @@ app.post(/\/img\/[a-z]+/, (req, res) => {
 						console.log("SAVE CAPTION ERROR -2");
 					} else {
 						console.log("NEW CAPTION SAVED");
+						//Find user to save activity record
+						const newImgUpload = new Upload("Caption upload", new Date(), savedCaption.caption, "/img/"+img.slug);
+						User.findOneAndUpdate({userID: req.session.passport.user.id}, {$push: {history: newImgUpload}}, function(err, usr, count){
+							if (err){
+								console.log("SAVE RECORD TO USER ERROR");
+							}
+						});
 						res.redirect(req.path);
 					}
 				});
@@ -227,7 +218,11 @@ app.post(/\/img\/[a-z]+/, (req, res) => {
 
 //Routes for add image
 app.get('/addImg', (req, res) => {
-  res.render('addImg');
+	if (req.session.passport){
+  	res.render('addImg');
+	} else {
+		res.redirect('/login')
+	}
 });
 
 app.post('/addImg', (req, res) => {
@@ -256,7 +251,6 @@ app.post('/addImg', (req, res) => {
 			res.redirect('/');
 		}
 	});
-  //res.redirect('/');
 });
 
 /*
@@ -304,7 +298,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-	res.redirect('/login');
+	res.render('register');
 })
 
 /*
@@ -320,10 +314,8 @@ app.post('/login', (req, res) =>{
 
 //Logout implementation ref: https://github.com/jaredhanson/passport-facebook/issues/202
 app.get('/logout', (req, res) => {
-	//res.render('logout');
 		req.session.destroy((err) => {
 		if(err) return next(err)
-
 		req.logout();
 		//res.sendStatus(200);
 		res.redirect('/')
@@ -358,17 +350,24 @@ app.get('/githubauth/callback', passportGH.authenticate('github', { failureRedir
     res.redirect('/');
 });
 
-
 //Route for profile
 app.get('/profile', (req, res) => {
-  const sampleUser = {
-    name: "Johnny Walker",
-    imgUploads: [{name: "Shocked man", link: "sampleImageCaptionPage"}],
-    imgVotes: [{name: "Shocked man", link: "sampleImageCaptionPage"}, {name: "Attractive man", link: "#"}],
-    captionVotes: [{name: "Shocked man", link: "sampleImageCaptionPage", caption: "10+ years of experience?"}]
-  };
-  res.render('profile', {sampleUser: sampleUser});
-})
+	//res.redirect(`/:${req.session.passport.user.id}`)
+	if (req.session.passport){
+		console.log(req.session.passport);
+	  User.findOne({userId: req.session.passport.user.userId}, function(err, usr, count){
+			if (err) {
+				console.log("USER LOAD ERROR");
+				res.redirect('/')
+			} else {
+				console.log(usr);
+				res.render('profile', {user: usr});
+			}
+		});
+	} else {
+		res.redirect('/login');
+	}
+});
 
 
 

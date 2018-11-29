@@ -8,9 +8,6 @@
   </h3>
   <img src="{{image.imgURL}}" alt="{{imgLink}}" width="250">
 </div>
-{{#if message}}
-  <p>{{message}}</p>
-{{/if}}
 
 <div class=captions>
   <ol>
@@ -23,24 +20,8 @@
   {{/each}}
   </ol>
 </div>
-<!-- AJAX Javascript for handling when an upvote button is clicked-->
-<script>
-  const upBtns = document.getElementsByClassName("caption-up-vote-button");
-  Array.prototype.forEach.call(upBtns, function(ele) {
-    	ele.addEventListener('click', function() {
-        console.log(ele.id + "-clicked!");
-        const upCaptionId = ele.id+"_UP";
-        const currUpCaption = document.getElementById(upCaptionId);
-        currUpCaption.textContent = parseInt(currUpCaption.textContent)+1;
-        const req = new XMLHttpRequest();
-        req.open("POST", "/img/{{image.slug}}", true);
-        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        req.send(`cap_id=${ele.id}`);
-    });
-  });
-</script>
 
-{{#if user}}
+{{#if session.passport.user}}
 <div class="add-caption">
   <h3>ADD A CAPTION</h3>
   <form method="POST" action="">
@@ -49,3 +30,43 @@
   </form>
 </div>
 {{/if}}
+
+<!-- AJAX Javascript for handling when an upvote button is clicked-->
+<script>
+  document.addEventListener('DOMContentLoaded', main);
+  function main(){
+    const upBtns = document.getElementsByClassName("caption-up-vote-button");
+    Array.prototype.forEach.call(upBtns, function(ele) {
+      	ele.addEventListener('click', function() {
+          console.log(ele.id + "-clicked!");
+          const upCaptionId = ele.id+"_UP";
+          const currUpCaption = document.getElementById(upCaptionId);
+          currUpCaption.textContent = parseInt(currUpCaption.textContent)+1;
+          const req = new XMLHttpRequest();
+          req.open("POST", "/img/{{image.slug}}", true);
+          req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          req.send(`cap_id=${ele.id}`);
+      });
+    });
+    //Check if caption box is filled in, if not send error message and do nothing
+    const captionInput = document.querySelector("input[type='text']");
+    const captionSubmitBtn = document.querySelector("input[type='submit']");
+
+    captionSubmitBtn.addEventListener('click', function(e){
+      const errMsg = document.querySelector("h3.errMsg");
+      if (errMsg){
+        errMsg.remove();
+      }
+      //Error check if information is complete, stop post
+      if (captionInput.value===''){
+        e.preventDefault();
+        console.log("Caption not entered");
+        const errMsg = document.createElement("h3");
+        errMsg.className = "errMsg";
+        errMsg.textContent = "Please enter a caption";
+        const captionBox = document.querySelector("div.captions");
+        captionBox.insertBefore(errMsg, captionBox.firstChild);
+      }
+    });
+  }
+</script>
