@@ -35,7 +35,7 @@
         }
     }
     const protocol = urlInput.value.split(':');
-    if (protocol[0]!=="http"||protocol[0]!=='https'){
+    if !(protocol[0]=="http"||protocol[0]=='https'){
       c.preventDefault();
       console.log("URL error");
       const errMsg = document.createElement("h3");
