@@ -29,13 +29,27 @@ const URLSlugs = require('mongoose-url-slugs');
 
 // schema goes here
 // create sound schema w/ data validation
+
 const UserSchema = new mongoose.Schema({
 	userId: {type: String, required: true},
 	displayName: {type: String, required: true},
   history: Array
 });
 
+
+/*
+const UserSchema = new mongoose.Schema({
+	username: {type: String, required: true},
+	password: {type: String, unique: true, required: true},
+  history: Array
+});
+*/
 UserSchema.plugin(findOrCreate);
+/*
+UserSchema.methods.verifyPassword = function(password){
+  return bcrypt.compare(password, this.local.password);
+};
+*/
 
 // schema for how each caption entry for an image will be saved and used by imageSchema
 const CaptionSchema = new mongoose.Schema({

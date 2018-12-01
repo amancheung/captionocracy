@@ -11,13 +11,16 @@
 
 <script>
   const inputs = document.querySelectorAll('input[type="text"]');
+  const urlInput = document.querySelector('input[name="url"]');
   const submit = document.querySelector(".filter-btn");
   const banner = document.querySelector(".banner")
 
   submit.addEventListener('click', function(c){
-    const errMsg = document.querySelector("h3.errMsg");
+    const errMsg = document.querySelectorAll("h3.errMsg");
     if (errMsg){
-      errMsg.remove();
+      Array.prototype.forEach.call(errMsg, function(m){
+        m.remove();
+      });
     }
     for (const i of inputs){
         if (i.value===""){
@@ -30,6 +33,15 @@
             banner.append(errMsg);
             break;
         }
+    }
+    const protocol = urlInput.textContent.split(':');
+    if (protocol[0]!=="http"||protocol[0]!=='https'){
+      c.preventDefault();
+      console.log("URL error");
+      const errMsg = document.createElement("h3");
+      errMsg.className="errMsg";
+      errMsg.textContent = "URL Invalid";
+      banner.append(errMsg);
     }
   });
 </script>

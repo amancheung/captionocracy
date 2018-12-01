@@ -113,9 +113,9 @@ app.get('/', (req, res)=> {
 				filterTerm = req.query.filter;
 				filteredResultCount = imgs.length;
 			} else {
-				console.log("No filter"); //Debug log
+				console.log("NO FILTER ENTERED"); //Debug log
 			}
-			console.log("IMAGE: "+imgs);
+			console.log("IMAGE #: "+imgs.length);
       res.render("home.hbs", {imgList: imgs, term: filterTerm, count: filteredResultCount});
     }
   });
@@ -155,7 +155,6 @@ app.get(/\/img\/[a-z]+/, (req, res)=> {
 			});
 		}
 	});
-  //res.render('caption', {imgLink: 'sample_1.jpg', captionList: imgCaptions});
 });
 
 app.post(/\/img\/[a-z]+/, (req, res) => {
@@ -166,25 +165,10 @@ app.post(/\/img\/[a-z]+/, (req, res) => {
 			if (err) {
 				console.log(err);
 			} else {
-				/*
-				const captionUpdate = img.captions.id(req.body.cap_id);
-				captionUpdate.score += 1;
-				console.log("Updated Caption: "+captionUpdate);
-				img.captions.id(req.body.cap_id).remove();
-				img.captions.push(captionUpdate);
-				img.save(function(err, saveUpdateImg, count){
-					if (err) {
-						console.log("Save caption update error");
-					} else {
-						console.log("Caption score updated");
-					}
-				});
-				*/
+				console.log(caption.caption+" UPVOTED");
 			}
 		});
 	} else {
-		console.log("No Vote!");
-
 		Image.findOne({slug: imgSLUG}, function(err, img, count) {
 			const newCaption = new Caption({
 				artID: img._id,
@@ -203,7 +187,7 @@ app.post(/\/img\/[a-z]+/, (req, res) => {
 						console.log("NEW CAPTION SAVED");
 						//Find user to save activity record
 						const newImgUpload = new Upload("Caption upload", new Date(), savedCaption.caption, "/img/"+img.slug);
-						User.findOneAndUpdate({userID: req.session.passport.user.id}, {$push: {history: newImgUpload}}, function(err, usr, count){
+						User.findOneAndUpdate({userId: req.session.passport.user.userId}, {$push: {history: newImgUpload}}, function(err, usr, count){
 							if (err){
 								console.log("SAVE RECORD TO USER ERROR");
 							}
@@ -243,9 +227,11 @@ app.post('/addImg', (req, res) => {
 			console.log("Img saved: "+ req.body.name);
 			//Also record this action to user's db entry
 			const newImgUpload = new Upload("Image upload", new Date(), img.name, "/img/"+img.slug);
-			User.findOneAndUpdate({userID: req.session.passport.user.id}, {$push: {history: newImgUpload}}, function(err, usr, count){
+			User.findOneAndUpdate({userId: req.session.passport.user.userId}, {$push: {history: newImgUpload}}, function(err, usr, count){
 				if (err){
 					console.log("SAVE RECORD TO USER ERROR");
+				} else {
+					console.log("Img saved to: "+req.session.passport.user.id);
 				}
 			});
 			res.redirect('/');
