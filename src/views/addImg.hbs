@@ -34,7 +34,7 @@
             break;
         }
     }
-    const protocol = urlInput.textContent.split(':');
+    const protocol = urlInput.value.split(':');
     if (protocol[0]!=="http"||protocol[0]!=='https'){
       c.preventDefault();
       console.log("URL error");
