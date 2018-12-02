@@ -1,5 +1,4 @@
 //Lap Yan Cheung (lyc286)
-//Dummy database
 
 const mongoose = require('mongoose');
 const findOrCreate = require('mongoose-findorcreate');

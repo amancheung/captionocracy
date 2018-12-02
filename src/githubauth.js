@@ -5,9 +5,10 @@ const mongoose = require('mongoose');
 require('./db');
 const User = mongoose.model('User');
 
-//Ref: http://www.passportjs.org/docs/facebook/
+//Ref: http://www.passportjs.org/packages/passport-github/
 //passport-facebook implementation: https://www.djamware.com/post/59a6257180aca768e4d2b132/node-express-passport-facebook-twitter-google-github-login
 
+//Github strategy
 passport.use(new GitHubStrategy({
   clientID: "53e6f9c1d357b83f1bb3",
   clientSecret: "4e02178869b441ee093250d914f365583b5dbfa1",

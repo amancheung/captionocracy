@@ -2,6 +2,24 @@
 <img src="img/finalprj_overview.png" alt="prj_overview" width="450"/>
 
 ## Progress log
+### Summary for Milestone #3
+All features implemented.
+All-users can:
+1. Vote on uploaded images
+2. Vote on uploaded captions
+
+Logged-in users can:
+1. Upload images
+2. Upload captions
+3. View their usage history
+
+Research Topics:
+1. Passport for Github
+2. Sass for CSS
+3. Client-side input verification
+
+Website available here[http://linserv1.cims.nyu.edu:14930/]
+
 ### Summary for Milestone #2
 1. Implemented basic functionalities of the site:
 	- User can upload an image via URL

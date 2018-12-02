@@ -1,6 +1,4 @@
 //Lap Yan Cheung (lyc286)
-//Skeleton app
-//Lap Yan Cheung (lyc286)
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -66,8 +64,6 @@ app.use((req, res, next) => {
 //middleware to access res.local
 app.use(function(req, res, next){
   res.locals.session = req.session;
-	//res.locals.user = req.session.passport.user;
-  //res.locals.authenticated = ! req.user.anonymous;
   console.log("Session ID #"+res.locals.session.id);
   next();
 });
@@ -102,6 +98,7 @@ app.get('/', (req, res)=> {
 			if (req.query.filter && req.query.filter!==''){
 				console.log(`Filter ${req.query.filter} is entered`); //Debug log
 				//Function to filter results by tag
+				const userFilterTags = req.query.filter;
 				imgs = imgs.filter(function(art) {
 					for (const t of art.tags) {
 		        if (t===req.query.filter.toLowerCase()) {
@@ -159,8 +156,8 @@ app.get(/\/img\/[a-z]+/, (req, res)=> {
 
 app.post(/\/img\/[a-z]+/, (req, res) => {
 	const imgSLUG = req.path.split("/")[2];
+	//If it is an AJAX vote - increment vote count for caption
 	if (req.body.cap_id) {
-		//console.log("Vote!");
 		Caption.findOneAndUpdate({_id: req.body.cap_id}, {$inc: {score :1}}, function(err, caption, count){
 			if (err) {
 				console.log(err);
@@ -169,11 +166,12 @@ app.post(/\/img\/[a-z]+/, (req, res) => {
 			}
 		});
 	} else {
+		//Upload a caption entry to the image
 		Image.findOne({slug: imgSLUG}, function(err, img, count) {
 			const newCaption = new Caption({
 				artID: img._id,
 				caption: req.body.caption,
-				captionCreator: "123456",
+				captionCreator: req.session.passport.user.userId,
 				score: 0,
 			});
 			if (err) {
@@ -186,8 +184,8 @@ app.post(/\/img\/[a-z]+/, (req, res) => {
 					} else {
 						console.log("NEW CAPTION SAVED");
 						//Find user to save activity record
-						const newImgUpload = new Upload("Caption upload", new Date(), savedCaption.caption, "/img/"+img.slug);
-						User.findOneAndUpdate({userId: req.session.passport.user.userId}, {$push: {history: newImgUpload}}, function(err, usr, count){
+						const newCaptionUpload = new Upload("Caption upload", new Date(), savedCaption.caption, "/img/"+img.slug);
+						User.findOneAndUpdate({userId: req.session.passport.user.userId}, {$push: {history: newCaptionUpload}}, function(err, usr, count){
 							if (err){
 								console.log("SAVE RECORD TO USER ERROR");
 							}
@@ -209,6 +207,7 @@ app.get('/addImg', (req, res) => {
 	}
 });
 
+//Add image to database if entries are valid
 app.post('/addImg', (req, res) => {
 	new Image({
 		name: req.body.name,
@@ -239,46 +238,6 @@ app.post('/addImg', (req, res) => {
 	});
 });
 
-/*
-app.get('/register', (req, res) => {
-	res.render('register');
-});
-
-app.post('/register', (req, res) => {
-	User.findOne({username: req.body.username}, function(err, usr, count){
-		if (err){
-			console.log("USERNAME VALIDATION ERROR");
-		} else {
-			if (usr) {
-				console.log("USERNAME ALREADY TAKEN");
-				res.redirect('/register');
-			} else {
-				//Save bcrypt-hashed passwod
-				bcrypt.hash(req.body.password, 10, function(err, hash) {
-					if (err) {
-						console.log("PASSWORD GENERATION ERROR");
-					} else {
-						new User({
-							username: req.body.username,
-							password: hash
-						}).save(function(err, newUsr, count) {
-							if (err){
-								console.log("User creation error");
-							} else {
-								console.log("New user created: "+newUsr.username);
-								passport.authenticate('local', { failureRedirect: '/login' }),
-							  function(req, res) {
-							    res.redirect('/');
-							  }
-							}
-						});
-					}
-				});
-			}
-		}
-	});
-});
-*/
 app.get('/login', (req, res) => {
 	res.render('login');
 });
@@ -344,7 +303,7 @@ app.get('/profile', (req, res) => {
 	  User.findOne({userId: req.session.passport.user.userId}, function(err, usr, count){
 			if (err) {
 				console.log("USER LOAD ERROR");
-				res.redirect('/')
+				res.redirect('/');
 			} else {
 				console.log(usr);
 				res.render('profile', {user: usr});

@@ -15,6 +15,7 @@
   const submit = document.querySelector(".filter-btn");
   const banner = document.querySelector(".banner")
 
+  //Clear error messages if they exist
   submit.addEventListener('click', function(c){
     const errMsg = document.querySelectorAll("h3.errMsg");
     if (errMsg){
@@ -22,6 +23,9 @@
         m.remove();
       });
     }
+
+    //Array.prototype.some.call(inputs, inputsEmpty);
+    /*
     for (const i of inputs){
         if (i.value===""){
             //Client-side check if fields are complete
@@ -33,9 +37,26 @@
             banner.append(errMsg);
             break;
         }
+    }*/
+
+    function inputsEmpty(input){
+      if (input.value===''){
+        return true;
+      } else {
+        return false;
+      }
     }
     const protocol = urlInput.value.split(':');
-    if (!protocol[0]=="http"||!protocol[0]=='https'){
+    console.log(protocol[0]);
+    //Check if the inputs are complete
+    if (Array.prototype.some.call(inputs, inputsEmpty)){
+      c.preventDefault();
+      console.log("Information incomplete");
+      const errMsg = document.createElement("h3");
+      errMsg.className="errMsg";
+      errMsg.textContent = "Please fill in all boxes";
+      banner.append(errMsg);
+    } else if (protocol[0]!=="http"&&protocol[0]!=='https'){ //Check if url is valid
       c.preventDefault();
       console.log("URL error");
       const errMsg = document.createElement("h3");
