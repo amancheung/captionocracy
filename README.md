@@ -18,7 +18,7 @@ Research Topics:
 2. Sass for CSS
 3. Client-side input verification
 
-Website available here[http://linserv1.cims.nyu.edu:14930/]
+Website available [here](ttp://linserv1.cims.nyu.edu:14930/)
 
 ### Summary for Milestone #2
 1. Implemented basic functionalities of the site:
